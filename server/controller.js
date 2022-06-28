@@ -24,8 +24,12 @@ module.exports = {
                 city_id serial primary key,
                 name varchar,
                 rating integer,
-                country_id integer not null references countries(country_id)
+                country_id int not null references countries(country_id)
             );
+
+
+
+
             
 
 
@@ -226,6 +230,12 @@ module.exports = {
             ('Yemen'),
             ('Zambia'),
             ('Zimbabwe');
+
+
+            insert into cities (name,rating,country_id)
+            values ('buenos aires',5,7),
+            ('algiers',3,3),
+            ('kabul',1,1);
         `).then(() => {
             console.log('DB seeded!')
             res.sendStatus(200)
@@ -258,7 +268,7 @@ module.exports = {
 
     },
     deleteCity: (req, res) => {
-        let {id}=req.body;
+        let {id}=req.params
         sequelize.query(`delete from cities where city_id = ${id}`)
         .then((dbRes) => res.status(200).send(dbRes[0]))
         .catch(err => console.log('error deleting cities', err))
